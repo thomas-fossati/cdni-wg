@@ -1,0 +1,467 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE rfc [
+  <!ENTITY nbsp    "&#160;">
+  <!ENTITY zwsp   "&#8203;">
+  <!ENTITY nbhy   "&#8209;">
+  <!ENTITY wj     "&#8288;">
+]>
+<!-- This template is for creating an Internet Draft using xml2rfc,
+  which is available here: http://xml.resource.org. -->
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+<!-- used by XSLT processors -->
+<!-- For a complete list and description of processing instructions (PIs),
+  please see http://xml.resource.org/authoring/README.html. -->
+<!-- Below are generally applicable Processing Instructions (PIs) that most I-Ds might want to use.
+  (Here they are set differently than their defaults in xml2rfc v1.32) -->
+<?rfc strict="no" ?>
+<!-- give errors regarding ID-nits and DTD validation -->
+<!-- control the table of contents (ToC) -->
+<?rfc toc="yes"?>
+<!-- Display comments -->
+<?rfc comments="no"?>
+<!-- generate a ToC -->
+<?rfc tocdepth="4"?>
+<?rfc inline="yes"?>
+<!-- the number of levels of subsections in ToC. default: 3 -->
+<!-- control references -->
+<?rfc symrefs="yes"?>
+<!-- use symbolic references tags, i.e, [RFC2119] instead of [1] -->
+<?rfc sortrefs="yes" ?>
+<!-- sort the reference entries alphabetically -->
+<!-- control vertical white space
+  (using these PIs as follows is recommended by the RFC Editor) -->
+<?rfc compact="yes" ?>
+<!-- do not start each main section on a new page -->
+<?rfc subcompact="no" ?>
+<!-- keep one hblank line between list items -->
+<!-- end of list of popular I-D processing instructions -->
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" ipr="trust200902" category="std" docName="draft-ietf-cdni-interfaces-https-delegation-09" consensus="true" obsoletes="" updates="" submissionType="IETF" xml:lang="en" tocInclude="true" tocDepth="4" symRefs="true" sortRefs="true" version="3">
+  <!-- xml2rfc v2v3 conversion 3.9.0 -->
+  <!-- category values: std, bCSP, info, exp, and historic
+  ipr values: full3667, noModification3667, noDerivatives3667
+  you can add the attributes updates="NNNN" and obsoletes="NNNN"
+  they will automatically be output with "(if approved)" -->
+
+	<!-- ***** FRONT MATTER ***** -->
+	<front>
+    <!-- The abbreviated title is used in the page header - it is only necessary if the
+  full title is longer than 39 characters -->
+
+		<title abbrev="CDNI extensions for HTTPS delegation">CDNI extensions for HTTPS delegation</title>
+    <seriesInfo name="Internet-Draft" value="draft-ietf-cdni-interfaces-https-delegation-09"/>
+    <!-- add 'role="editor"' below for the editors if appropriate -->
+
+		<!-- Another author who claims to be an editor -->
+
+		<author fullname="Frederic Fieau" initials="F." surname="Fieau" role="editor">
+      <organization>Orange</organization>
+      <address>
+        <postal>
+          <street>40-48, avenue de la Republique</street>
+          <!-- Reorder these if your country does things differently -->
+
+					<city>Chatillon</city>
+          <region/>
+          <code>92320</code>
+          <country>France</country>
+        </postal>
+        <email>frederic.fieau@orange.com</email>
+        <!-- uri and facsimile elements may also be added -->
+			</address>
+    </author>
+    <author fullname="Emile Stephan" initials="E." surname="Stephan">
+      <organization>Orange</organization>
+      <address>
+        <postal>
+          <street>2, avenue Pierre Marzin</street>
+          <!-- Reorder these if your country does things differently -->
+
+					<city>Lannion</city>
+          <region/>
+          <code>22300</code>
+          <country>France</country>
+        </postal>
+        <email>emile.stephan@orange.com</email>
+        <!-- uri and facsimile elements may also be added -->
+			</address>
+    </author>
+    <author fullname="Sanjay Mishra" initials="S." surname="Mishra">
+      <organization>Verizon</organization>
+      <address>
+        <postal>
+          <street>13100 Columbia Pike</street>
+          <!-- Reorder these if your country does things differently -->
+
+					<city>Silver Spring</city>
+          <region/>
+          <code>MD 20904</code>
+          <country>USA</country>
+        </postal>
+        <email>sanjay.mishra@verizon.com</email>
+        <!-- uri and facsimile elements may also be added -->
+			</address>
+    </author>
+    <date day="11" month="July" year="2022"/>
+    <!-- If the month and year are both specified and are the current ones, xml2rfc will fill
+  in the current day for you. If only the current year is specified, xml2rfc will fill
+  in the current day and month for you. If the year is not the current one, it is
+  necessary to specify at least a month (xml2rfc assumes day="1" if not specified for the
+      purpose of calculating the expiry date).  With drafts it is normally sufficient to
+  specify just the year. -->
+
+		<!-- Meta-data Declarations -->
+
+		<area>ART</area>
+    <workgroup>CDNI Working Group</workgroup>
+    <!-- WG name at the upperleft corner of the doc,
+  IETF is fine for individual submissions.
+  If this element is not present, the default is "Network Working Group",
+  which is used by the RFC Editor as a nod to the history of the IETF. -->
+
+		<keyword>CDNI, CDN, CSP, UA, Interconnection, HTTPS, API, TLS, delegation, LURK, private, key, certificate, STAR, OOB, SLC, SubCert, credential, credentials, delegated, metadata, interface, control, triggers</keyword>
+    <!-- Keywords will be incorporated into HTML output
+  files in a meta tag but they have no effect on text or nroff
+  output. If you submit your draft to the RFC Editor, the
+  keywords will be used for the search engine. -->
+
+		<abstract>
+		<t>
+			This document defines a new Footprint and Capabilities metadata objects to support HTTPS delegation between two or more interconnected CDNs. 
+		Specifically, this document outlines CDNI Metadata interface objects for delegation method as published in the ACME-STAR document <xref target="RFC9115" format="default"/>.
+		</t>
+    </abstract>
+  </front>
+  <middle>
+    <section numbered="true" toc="default">
+      <name>Introduction</name>
+      <t>
+		Content delivery over HTTPS using one or more CDNs along the path requires credential management.  This specifically applies when an entity delegates delivery of encrypted content to another trusted entity.  
+      </t>
+      <!--<t>
+		Several delegation methods are currently proposed within different IETF working groups. They specify different methods for provisioning HTTPS delivery credentials. 
+      </t>-->
+	  <t>
+		 <xref target="RFC9115" format='default'/> defines a mechanism where an upstream entity, that is, holder of a X.509 certificate
+   can give a temporary delegated authority, via issuing a certificate to one or more downstream entities for the 
+   purposes of delivering content on its behalf.
+   Furthermore, the upstream entity has the ability to extend the duration of the certificate automatically and iteratively
+   until it allows the last renewal to end and therefore terminate the use of certificate authority to the downstream entity.
+	  </t>
+      <t>
+   More specifically, <xref target="RFC9115" format='default'/>  defines a process where the upstream Content Delivery Network (uCDN), the holder of the domain, generates on-demand a X.509 
+   certificate for the downstream CDN (dCDN). The certificate generation process ensures that the certified public key corresponds to a private key controlled
+   by the downstream CDN. <xref target="RFC9115" format='default'/>  follows <xref target="RFC8739" format='default'/>  for Short-Term, Automatically Renewed Certificate (STAR) in the
+   Automated Certificate Management Environment (ACME).
+      </t>
+	  <t>
+	     This document defines CDNI Metadata to make use of HTTPS delegation between
+   an upstream CDN (uCDN) and a downstream CDN (dCDN) based on mechanism specified in 
+   <xref target="RFC9115" format='default'/>.  Furthermore, it includes a proposal of IANA registry to
+   enable adding of delegation methods.
+	  </t>
+      <t>
+		Section 2 defines terminology used in this document. Section 3 presents delegation metadata for the FCI interface. Section 4 addresses the metadata for handling HTTPS delegation with the Metadata Interface. Section 5 addresses IANA registry for delegation methods. Section 6 covers the security considerations. 
+      </t>
+    </section>
+    <section numbered="true" toc="default">
+      <name>Terminology</name>
+      <t>
+			This document uses terminology from CDNI framework documents such as: CDNI framework document <xref target="RFC7336" format="default"/>, CDNI requirements <xref target="RFC7337" format="default"/> and CDNI interface specifications documents: CDNI Metadata interface <xref target="RFC8006" format="default"/> and CDNI Footprint and capabilities <xref target="RFC8008" format="default"/>.
+      </t>
+    </section>
+   
+    <section numbered="true" toc="default">
+      <name>Delegation metadata for CDNI FCI</name>
+      <t>The Footprint and Capabilities interface as defined in <xref target="RFC8008"/>, allows a dCDN to send a FCI capability type object to a uCDN. This draft adds an object named FCI.SupportedDelegationMethods.
+      </t>
+	  <t>
+	  This object shall allow a dCDN to advertise the capabilities regarding the supported delegation methods and their configuration.
+	  </t>
+      <t>
+	  The following is an example of the supported delegated methods capability object for a CDN supporting STAR delegation method. 
+      </t>
+      <artwork type="drawing" name="" align="left" alt=""><![CDATA[
+
+     {
+     "capabilities": [
+       {
+         "capability-type": "FCI.SupportedDelegationMethods",
+         "capability-value": {
+           "delegation-methods": [
+                    "AcmeStarDelegationDelegationMethod",
+                    "... Other supported delegation methods ..."
+           ]
+         }
+         "footprints": [
+           <Footprint objects>
+         ]
+       }
+      ]
+     }
+
+]]></artwork>
+    </section>
+	
+    <section numbered="true" toc="default">
+      <name>Delegation metadata for CDNI </name>
+      <t>
+		This section defines Delegation metadata using the current Metadata interface model. This allows bootstrapping delegation methods between a uCDN and a delegate dCDN.
+      </t>
+      <section numbered="true" toc="default">
+        <name>Usage example related to an HostMatch object</name>
+        <t>
+		This section presents the use of CDNI Delegation metadata to apply to an HostMatch object, as defined in <xref target="RFC8006" format="default"/> and as specified in the following sections.
+        </t>
+        <t>
+		The existence of delegation method in the CDNI metadata Object shall enable the use of this method, as chosen by the delegating entity. 
+		In the case of an HostMatch object, the delegation method will be activated for the set of Host defined in the HostMatch.   See <xref target="methods" format="default"/> for more details about delegation methods metadata specification.
+        </t>
+        <t>
+		The HostMatch object can reference a host metadata that points at the delegation information. Delegation metadata are added to a Metadata object.
+        </t>
+        <t>
+		Those "delegation" metadata can apply to other MI objects such as PathMatch object metadata.
+		</t>		
+        <t>
+		Below shows both HostMatch and its Metadata related to a host,  for example, here is a HostMatch object referencing "video.example.com":
+        </t>
+
+
+        <artwork type="drawing" name="" align="left" alt=""><![CDATA[
+
+HostMatch:
+   {
+     "host": "video.example.com",
+     "host-metadata": {
+       "type": "MI.HostMetadata",
+       "href": "https://metadata.ucdn.example/host1234"
+     }
+   }
+
+Following the example above, the metadata is modeled  
+for ACMEStarDelegationMethod as follows: 
+
+  "generic-metadata-value": {
+    "acme-delegations": [
+      "https://acme.ucdn.example/acme/delegation/ogfr8EcolOT",
+      "https://acme.ucdn.example/acme/delegation/wSi5Lbb61E4" 
+    ]
+  }
+	
+]]></artwork>
+    </section>
+    <section anchor="methods" numbered="true" toc="default">
+      <name>AcmeStarDelegationMethod object</name>
+      <t>This section defines the AcmeStarDelegationMethod object which describes metadata related to the use of ACME/STAR API  presented in <xref target="RFC9115" format="default"/>
+      </t>
+      <t>
+		As expressed in <xref target="RFC9115" format="default"/>, when an origin has set a delegation to a specific domain (i.e. dCDN), the dCDN should present to the end-user client, a short-term certificate bound to the master certificate.
+      </t>
+      <artwork type="drawing" name="" align="left" alt="">
+<![CDATA[
+dCDN                  uCDN             Content Provider           CA 
+ |              ACME/STAR proxy        ACME/STAR client    ACME/STAR srv
+ |                     |                     |                     |
+ | 1. GET Metadata incl. Delegation Method object with CSR template|
+ +-------------------->|                     |                     |
+ | 200 OK + Metadata incl. CSR template [CDNI]                     |
+ |<--------------------+                     |                     |
+ | 2. Request delegation: video.dcdn.example + dCDN public key     |
+ +-------------------->|                     |                     |
+ |                     | 3. Request STAR Cert + dCDN public key    |
+ |                     +-------------------->| 4. Request STAR cert|
+ |                     |                     |    + Pubkey         |
+ |                     |                     |-------------------->|
+ |                     |                     | 5. STAR certificate |
+ |                     | 6. STAR certificate |<--------------------|
+ | 7. STAR certificate |<--------------------+                     |
+ +<--------------------|                     |                     |
+ |                     |                     |                     |
+ | 8. Retrieve STAR certificate (credential-location-uri)          |
+ +---------------------------------------------------------------->|                   
+ |                     |                     |         9. renew +--|       
+ |                     |                     |            cert  |  |         
+ | 10. Star certificate                      |                  +->|      
+ |<----------------------------------------------------------------+
+ |  ...                |                     |                     |
+
+Figure 1: Example call-flow of STAR delegation in CDNI showing 2 levels 
+of delegation
+]]></artwork>
+      <t>Property: acme-delegations</t>
+      <ul empty="true" spacing="normal">
+        <li>Description: an array of delegation objects associated with the dCDN account on the uCDN ACME server (see Section 2.3.1 of <xref target="RFC9115" format="default"/> for the details).</li>
+        <li>Type: Objects</li>
+        <li>Mandatory-to-Specify: Yes</li>
+      </ul>
+    </section>
+	</section>
+    
+    <section numbered="true" toc="default">
+      <name>IANA considerations</name>
+      <t>This document requests the registration of the following entries under the "CDNI Payload Types" registry hosted by IANA regarding "CDNI delegation":
+      </t>
+      <artwork type="drawing" name="" align="left" alt=""><![CDATA[
+	
++-------------------------------+---------------+
+| Payload Type                  | Specification |
++-------------------------------+---------------+
+| MI.AcmeStarDelegationMethod   | RFCthis       |
++-------------------------------+---------------+
+| FCI.SupportedDelegationMethods| RFCthis       |
++-------------------------------+---------------+
+
+[RFC Editor: Please replace RFCthis with the published RFC number for
+   this document.]
+
+
+		]]></artwork>
+		
+      <section numbered="true" toc="default">
+        <name>CDNI MI AcmeStarDelegationMethod Payload Type</name>
+        <t>
+		Purpose: The purpose of this Payload Type is to distinguish AcmeStarDelegationMethod MI objects (and any associated capability advertisement)
+        </t>	
+        <t>
+			Interface: MI
+        </t>
+        <t>
+			Encoding: see Section 5
+        </t>
+      </section>
+      <section numbered="true" toc="default">
+        <name>CDNI FCI SupportedDelegationMethods Payload Type</name>
+        <t>
+		Purpose: The purpose of this Payload Type is to distinguish SupportedDelegationMethods FCI objects (and any associated capability advertisement)
+        </t>
+        <t>
+			Interface: FCI
+        </t>
+        <t>
+			Encoding: see Section 4
+        </t>
+      </section>
+	  
+	  
+    </section>
+    <section numbered="true" toc="default">
+      <name>Security considerations</name>
+      <t>Delegation metadata proposed here do not alter nor change Security Considerations as outlined in the following RFCs: An Automatic Certificate Management Environment
+(ACME) Profile for Generating Delegated Certificates <xref target="RFC9115"/>; the CDNI Metadata <xref target="RFC8006"/> and CDNI Footprint and Capabilities <xref target="RFC8008" format="default"/>.
+	  </t>
+    </section>
+		
+  </middle>
+  <!--  *****BACK MATTER ***** -->
+
+	<back>
+    <!-- References split into informative and normative -->
+
+		<!-- There are 2 ways to insert reference entries from the citation libraries:
+     1. define an ENTITY at the top, and use "ampersand character"RFC2629; here (as shown)
+     2. simply use a PI "less than character"?rfc include="reference.RFC.2119.xml"?> here
+        (for I-Ds: include="reference.I-D.narten-iana-considerations-rfc2434bis.xml")
+
+     Both are cited textually in the same manner: by using xref elements.
+     If you use the PI option, xml2rfc will, by default, try to find included files in the same
+     directory as the including file. You can also define the XML_LIBRARY environment variable
+     with a value containing a set of directories to search.  These can be either in the local
+     filing system or remote ones accessed by http (http://domain/dir/... ).-->
+
+
+
+		<references>
+      <name>References</name>
+      <references>
+        <name>Normative References</name>
+        <!--?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?-->
+			<!--&RFC2119;
+	     
+		  &RFC2629;-->
+			<!--&RFC3568;-->
+			<!-- &RFC6698; DANE-->			
+			<!--&RFC2818; -->
+			<!--&RFC5280;-->
+			<!--&RFC6770;-->
+			<!--&RFC6844;-->
+			<!--&RFC7230;-->
+			<xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8006.xml"/>
+        <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8008.xml"/>
+        <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8739.xml"/>
+		<xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.9115.xml"/>
+        <!--<?rfc include="reference.I-D.ietf-tls-subcerts"?>
+			<?rfc include="reference.I-D.ietf-acme-star-delegation"?>-->
+			
+			<!--&RFC7540;-->
+		</references>
+      <references>
+        <name>Informative References</name>
+        <!-- Here we use entities that we defined at the beginning. -->			
+				
+			<!--&I-D.thomson-http-scd;-->
+			<!--&I-D.ietf-acme-caa;-->
+			<!--<?rfc include="reference.I-D.thomson-http-bc"?>-->
+			<!--<?rfc include="reference.I-D.thomson-http-mice"?>-->
+			<!--<?rfc include="reference.I-D.ietf-httpbis-encryption-encoding"?>-->
+			<xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7336.xml"/>
+        <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7337.xml"/>
+        <!--			&RFC8446;-->
+
+			<!--<?rfc include="reference.I-D.cairns-tls-session-key-interface"?>-->
+
+						
+			<!--<?rfc include="reference.I-D.ietf-cdni-redirection.xml"?>-->
+
+
+			<!-- references to add		
+				   [HTTPS-CDN] J. Liang, J. Jiang, H. Duan, K. Li, T. Wan, and J. Wu,
+		   "When HTTPS Meets CDN: A Case of Authentication in Delegated
+		   Service," in 2014 IEEE Symposium on Security and Privacy (SP), 2014,
+		   pp. 67-82.
+
+		   [SSL-Challenges] J. Clark and P. C. van Oorschot, "SoK: SSL and
+		   HTTPS: Revisiting Past Challenges and Evaluating Certificate Trust
+		   Model Enhancements," in 2013 IEEE Symposium on Security and Privacy
+		   (SP), 2013, pp. 511-525.
+		   
+	
+
+
+
+			<reference anchor="LURK_Mailing_List"
+			           target="https://mailarchive.ietf.org/arch/search/?email_list=lurk">
+				<front>
+					<title>LURK Mailing List</title>
+
+					<author fullname="">
+						<organization/>
+					</author>
+
+					<date year=""/>
+				</front>
+			</reference>
+	   -->
+	   
+
+		</references>
+    </references>
+    <!-- Change Log
+
+v00 2006-03-15  EBD   Initial version
+
+v01 2006-04-03  EBD   Moved PI location back to position 1 -
+                      v3.1 of XMLmind is better with them at this location.
+v02 2007-03-07  AH    removed extraneous nested_list attribute,
+                      other minor corrections
+v03 2007-03-09  EBD   Added comments on null IANA sections and fixed heading capitalization.
+                      Modified comments around figure to reflect non-implementation of
+                      figure indent control.  Put in reference using anchor="DOMINATION".
+                      Fixed up the date specification comments to reflect current truth.
+v04 2007-03-09 AH     Major changes: shortened discussion of PIs,
+                      added discussion of rfc include.
+v05 2007-03-10 EBD    Added preamble to C program example to tell about ABNF and alternative 
+                      images. Removed meta-characters from comments (causes
+                      problems).
+    2015-04-17 AR     updated ipr attribute.  -->
+	</back>
+</rfc>
