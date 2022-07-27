@@ -1,0 +1,3 @@
+# Automatically generated CODEOWNERS
+# Regenerate with `make update-codeowners`
+draft-ietf-cdni-interfaces-https-delegation.md frederic.fieau@orange.com emile.stephan@orange.com sanjay.mishra@verizon.com
