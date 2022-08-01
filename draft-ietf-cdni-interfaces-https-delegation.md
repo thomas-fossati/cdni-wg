@@ -65,7 +65,7 @@ entity:
 This document defines a new Footprint and Capabilities metadata objects to
 support HTTPS delegation between two or more interconnected CDNs.
 Specifically, this document outlines CDNI Metadata interface objects for
-delegation method as published in the ACME-STAR document (RFC 9115).
+the delegation method described in the ACME Delegation document (RFC 9115).
 
 --- middle
 
