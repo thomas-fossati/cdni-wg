@@ -210,10 +210,11 @@ Specifically, this document outlines CDNI Metadata interface objects for delegat
       <t>
 		As expressed in <xref target="RFC9115" format="default"/>, when an origin has set a delegation to a specific domain (i.e., dCDN), the dCDN should present to the end-user client a short-term certificate bound to the master certificate.
       </t>
-      <artwork type="drawing" name="" align="left" alt="">
+<artwork type="drawing" name="" align="left" alt="">
 <![CDATA[
-dCDN                  uCDN             Content Provider           CA 
- |              ACME/STAR proxy        ACME/STAR client    ACME/STAR srv
+dCDN                 uCDN             Content Provider            CA
+ |                 ACME/STAR             ACME/STAR         ACME/STAR
+ |                   proxy                client                 srv
  |                     |                     |                     |
  | 1. GET Metadata incl. Delegation Method object with CSR template|
  +-------------------->|                     |                     |
@@ -231,15 +232,15 @@ dCDN                  uCDN             Content Provider           CA
  +<--------------------|                     |                     |
  |                     |                     |                     |
  | 8. Retrieve STAR certificate (credential-location-uri)          |
- +---------------------------------------------------------------->|                   
- |                     |                     |         9. renew +--|       
- |                     |                     |            cert  |  |         
- | 10. Star certificate                      |                  +->|      
+ +---------------------------------------------------------------->|
+ |                     |                     |         9. renew +--|
+ |                     |                     |            cert  |  |
+ | 10. Star certificate                      |                  +->|
  |<----------------------------------------------------------------+
  |  ...                |                     |                     |
 
-Figure 1: Example call-flow of STAR delegation in CDNI showing 2 levels 
-of delegation
+Figure 1: Example call-flow of STAR delegation in CDNI 
+showing 2 levels of delegation
 ]]></artwork>
       <t>Property: acme-delegations</t>
       <ul empty="true" spacing="normal">
