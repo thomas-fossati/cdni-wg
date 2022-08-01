@@ -52,7 +52,7 @@ normative:
   RFC8008:
   RFC8739:
   RFC9115:
-  
+
 informative:
   RFC7336:
   RFC7337:
